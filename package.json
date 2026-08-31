@@ -1,0 +1,34 @@
+{
+  "name": "ivac-license-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IVAC Slot Automation Pro — license backend, customer website, and seller admin dashboard (Next.js + MongoDB Atlas, deployable on Vercel).",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test",
+    "gen:keys": "node scripts/generate-keys.mjs",
+    "setup:db": "node scripts/setup-db.mjs"
+  },
+  "dependencies": {
+    "mongodb": "^6.8.0",
+    "next": "14.2.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.15",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}

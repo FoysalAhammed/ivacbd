@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="520" viewBox="0 0 640 520" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f1a15"/>
+      <stop offset="1" stop-color="#0d0b0a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff671f"/>
+      <stop offset="1" stop-color="#ff9a5f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="520" rx="24" fill="url(#bg)"/>
+  <rect x="40" y="40" width="560" height="70" rx="16" fill="#17130f" stroke="#2c2620"/>
+  <circle cx="80" cy="75" r="16" fill="url(#accent)"/>
+  <rect x="112" y="63" width="200" height="12" rx="6" fill="#3a332b"/>
+  <rect x="112" y="83" width="120" height="9" rx="4" fill="#2c2620"/>
+  <rect x="470" y="58" width="96" height="34" rx="17" fill="url(#accent)"/>
+  <rect x="40" y="140" width="270" height="340" rx="16" fill="#17130f" stroke="#2c2620"/>
+  <rect x="64" y="168" width="150" height="14" rx="7" fill="#3a332b"/>
+  <rect x="64" y="196" width="222" height="44" rx="10" fill="#1f1a15" stroke="#2c2620"/>
+  <rect x="64" y="252" width="222" height="44" rx="10" fill="#1f1a15" stroke="#2c2620"/>
+  <rect x="64" y="326" width="222" height="46" rx="23" fill="url(#accent)"/>
+  <rect x="64" y="392" width="222" height="46" rx="23" fill="#1f1a15" stroke="#ff671f"/>
+  <rect x="330" y="140" width="270" height="340" rx="16" fill="#17130f" stroke="#2c2620"/>
+  <text x="354" y="196" fill="#a99f92" font-family="monospace" font-size="13">calendar · auto date retry</text>
+  <g>
+    <rect x="354" y="212" width="52" height="34" rx="8" fill="#052e1a" stroke="#14532d"/>
+    <rect x="414" y="212" width="52" height="34" rx="8" fill="#052e1a" stroke="#14532d"/>
+    <rect x="474" y="212" width="52" height="34" rx="8" fill="#2a1e05" stroke="#713f12"/>
+    <rect x="354" y="254" width="52" height="34" rx="8" fill="#1f1a15" stroke="#2c2620"/>
+    <rect x="414" y="254" width="52" height="34" rx="8" fill="#ff671f"/>
+    <rect x="474" y="254" width="52" height="34" rx="8" fill="#052e1a" stroke="#14532d"/>
+  </g>
+  <rect x="354" y="392" width="222" height="46" rx="23" fill="url(#accent)"/>
+</svg>
