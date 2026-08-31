@@ -52,7 +52,7 @@ export default function HomePage() {
           </p>
           <div className="row wrap">
             <a className="btn" href="#pricing">See plans &amp; buy</a>
-            <a className="btn ghost" href="#how">How it works</a>
+            <a className="btn ghost" href="https://www.youtube.com/watch?v=MvOjlWTJzM4&t=3s">Video Demo</a>
           </div>
           <p className="muted" style={{ fontSize: 13 }}>
             Manual bKash payment · Activation key delivered after verification
