@@ -14,6 +14,7 @@
     "setup:db": "node scripts/setup-db.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "mongodb": "^6.8.0",
     "next": "14.2.15",
     "react": "18.3.1",
