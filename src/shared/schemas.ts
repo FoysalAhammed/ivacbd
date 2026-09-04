@@ -51,6 +51,13 @@ export const otpSubmitSchema = z.object({
   appKey: z.string().min(1).max(256),
   raw: z.string().max(500).optional(),
   sentAt: z.number().int().nonnegative().optional(),
+  // Stable per-SMS id (content hash). Lets the backend ignore a duplicate/replayed
+  // submit of the SAME message it has already delivered — see submitOtp().
+  eventId: z
+    .string()
+    .trim()
+    .regex(/^[A-Za-z0-9_-]{8,64}$/, "Invalid event id")
+    .optional(),
 });
 export type OtpSubmitInput = z.infer<typeof otpSubmitSchema>;
 

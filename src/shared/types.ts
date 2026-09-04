@@ -90,6 +90,8 @@ export interface OtpDoc {
   boundInstallationId?: string | null;
   boundAt?: Date | null;
   consumedAt?: Date | null;
+  /** Content id of the last submitted SMS — used to drop duplicate/replayed submits. */
+  lastEventId?: string | null;
   submitCount?: number;
   createdAt?: Date;
   updatedAt: Date;

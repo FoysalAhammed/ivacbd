@@ -17,7 +17,7 @@ import { AppError } from "@/server/http";
 import type { OtpPollInput, OtpSubmitInput } from "@/shared/schemas";
 import { normalizePhone, phoneKey, verifyAppKey } from "./otp-core";
 
-const OTP_FRESH_MS = 180_000; // 3 min — covers IVAC's ~2-min window + clock skew
+const OTP_FRESH_MS = 120_000; // 2 min — the OTP's hard maximum lifetime (policy)
 const DOC_TTL_MS = 7 * 24 * 60 * 60 * 1000; // abandoned rows self-delete after a week
 
 function keyFor(phone: string): string {
@@ -32,6 +32,19 @@ export async function submitOtp(input: OtpSubmitInput): Promise<void> {
   const key = keyFor(input.phone);
   const now = new Date();
   const col = await otps();
+
+  // Replay/duplicate protection: if this exact SMS event was already delivered
+  // (same content id AND consumed), ignore the resubmit so a captured/replayed
+  // request can't re-open an OTP the extension already used. A genuinely new
+  // login produces a different OTP → different eventId → not blocked.
+  if (input.eventId) {
+    const prior = await col.findOne(
+      { phoneKey: key },
+      { projection: { lastEventId: 1, consumedAt: 1 } },
+    );
+    if (prior && prior.lastEventId === input.eventId && prior.consumedAt) return;
+  }
+
   await col.updateOne(
     { phoneKey: key },
     {
@@ -39,6 +52,7 @@ export async function submitOtp(input: OtpSubmitInput): Promise<void> {
         otpEnc: encryptSecret(input.otp),
         rawEnc: input.raw ? encryptSecret(input.raw.slice(0, 400)) : null,
         otpExpiresAt: new Date(now.getTime() + OTP_FRESH_MS),
+        lastEventId: input.eventId ?? null,
         // New login → drop any prior binding so the CURRENT extension re-binds.
         boundInstallationId: null,
         boundAt: null,
