@@ -61,6 +61,20 @@ export const otpPollSchema = z.object({
 });
 export type OtpPollInput = z.infer<typeof otpPollSchema>;
 
+// Fetched by the Android app so it knows which sender to trust.
+export const otpConfigSchema = z.object({
+  phone: relayPhone,
+  appKey: z.string().min(1).max(256),
+});
+export type OtpConfigInput = z.infer<typeof otpConfigSchema>;
+
+// ── Admin: OTP relay settings ───────────────────────────────
+// Allowed sender is an SMS sender ID (e.g. "IVACBD") or a number. Empty
+// string clears the restriction (accept any sender that matches the body).
+export const otpSettingsSchema = z.object({
+  allowedSender: z.string().trim().max(40),
+});
+
 // ── Customer purchase (website-facing) ──────────────────────
 
 const bdPhone = z

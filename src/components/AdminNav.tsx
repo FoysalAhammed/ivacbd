@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/admin/licenses", label: "Licenses" },
   { href: "/admin/customers", label: "Customers" },
   { href: "/admin/plans", label: "Plans" },
+  { href: "/admin/otp", label: "OTP Relay" },
   { href: "/admin/audit", label: "Audit" },
 ];
 

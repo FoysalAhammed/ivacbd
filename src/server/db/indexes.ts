@@ -12,6 +12,7 @@ import {
   otps,
   plans,
   purchaseRequests,
+  settings,
   subscriptions,
 } from "./collections";
 
@@ -29,6 +30,7 @@ export async function ensureIndexes(): Promise<string[]> {
   const ad = await admins();
   const pl = await plans();
   const ot = await otps();
+  const st = await settings();
 
   // TrxID is now optional → migrate any legacy non-partial unique index so
   // multiple requests without a TrxID are allowed. No-op on a fresh DB.
@@ -96,6 +98,9 @@ export async function ensureIndexes(): Promise<string[]> {
       "otps.expiresAt(ttl)",
       ot.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: "otp_ttl" }),
     ),
+
+    // settings — one row per key
+    note("settings.key(unique)", st.createIndex({ key: 1 }, { unique: true })),
   ]);
 
   return created;

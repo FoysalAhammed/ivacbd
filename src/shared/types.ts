@@ -97,6 +97,19 @@ export interface OtpDoc {
   expiresAt: Date;
 }
 
+/**
+ * Small key/value settings collection. Currently holds only the OTP relay's
+ * admin-configured "allowed sender" (an alphanumeric sender ID like `IVACBD`
+ * or a phone number). One doc per `key`.
+ */
+export interface SettingsDoc {
+  _id: ObjectId;
+  key: string;
+  allowedSender?: string | null;
+  updatedAt: Date;
+  updatedBy?: string | null;
+}
+
 export interface SubscriptionDoc {
   _id: ObjectId;
   customerId: ObjectId;

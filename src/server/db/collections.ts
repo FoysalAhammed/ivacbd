@@ -14,6 +14,7 @@ import type {
   OtpDoc,
   PlanDoc,
   PurchaseRequestDoc,
+  SettingsDoc,
   SubscriptionDoc,
 } from "@/shared/types";
 
@@ -27,6 +28,7 @@ export const COLLECTIONS = {
   purchaseRequests: "purchaseRequests",
   auditLogs: "auditLogs",
   otps: "otps",
+  settings: "settings",
 } as const;
 
 export async function customers(): Promise<Collection<CustomerDoc>> {
@@ -59,4 +61,7 @@ export async function auditLogs(): Promise<Collection<AuditLogDoc>> {
 }
 export async function otps(): Promise<Collection<OtpDoc>> {
   return (await getDb()).collection<OtpDoc>(COLLECTIONS.otps);
+}
+export async function settings(): Promise<Collection<SettingsDoc>> {
+  return (await getDb()).collection<SettingsDoc>(COLLECTIONS.settings);
 }

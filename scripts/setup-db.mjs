@@ -81,6 +81,7 @@ try {
     idx("plans.active", "plans", { active: 1 }),
     idx("otps.phoneKey(unique)", "otps", { phoneKey: 1 }, { unique: true }),
     idx("otps.expiresAt(ttl)", "otps", { expiresAt: 1 }, { expireAfterSeconds: 0, name: "otp_ttl" }),
+    idx("settings.key(unique)", "settings", { key: 1 }, { unique: true }),
   ]);
   console.log(`→ Ensured ${created.length} indexes`);
 
