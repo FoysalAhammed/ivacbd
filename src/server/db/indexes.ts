@@ -9,6 +9,7 @@ import {
   auditLogs,
   customers,
   licenses,
+  otps,
   plans,
   purchaseRequests,
   subscriptions,
@@ -27,6 +28,7 @@ export async function ensureIndexes(): Promise<string[]> {
   const al = await auditLogs();
   const ad = await admins();
   const pl = await plans();
+  const ot = await otps();
 
   // TrxID is now optional → migrate any legacy non-partial unique index so
   // multiple requests without a TrxID are allowed. No-op on a fresh DB.
@@ -87,6 +89,13 @@ export async function ensureIndexes(): Promise<string[]> {
 
     // plans
     note("plans.active", pl.createIndex({ active: 1 })),
+
+    // otp relay — one row per phone (unique), TTL cleans abandoned rows
+    note("otps.phoneKey(unique)", ot.createIndex({ phoneKey: 1 }, { unique: true })),
+    note(
+      "otps.expiresAt(ttl)",
+      ot.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: "otp_ttl" }),
+    ),
   ]);
 
   return created;

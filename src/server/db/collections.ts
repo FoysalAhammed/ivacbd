@@ -11,6 +11,7 @@ import type {
   AuditLogDoc,
   CustomerDoc,
   LicenseDoc,
+  OtpDoc,
   PlanDoc,
   PurchaseRequestDoc,
   SubscriptionDoc,
@@ -25,6 +26,7 @@ export const COLLECTIONS = {
   subscriptions: "subscriptions",
   purchaseRequests: "purchaseRequests",
   auditLogs: "auditLogs",
+  otps: "otps",
 } as const;
 
 export async function customers(): Promise<Collection<CustomerDoc>> {
@@ -54,4 +56,7 @@ export async function purchaseRequests(): Promise<
 }
 export async function auditLogs(): Promise<Collection<AuditLogDoc>> {
   return (await getDb()).collection<AuditLogDoc>(COLLECTIONS.auditLogs);
+}
+export async function otps(): Promise<Collection<OtpDoc>> {
+  return (await getDb()).collection<OtpDoc>(COLLECTIONS.otps);
 }

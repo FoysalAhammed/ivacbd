@@ -79,6 +79,8 @@ try {
     idx("auditLogs.entity", "auditLogs", { entityType: 1, entityId: 1 }),
     idx("admins.username(unique)", "admins", { username: 1 }, { unique: true }),
     idx("plans.active", "plans", { active: 1 }),
+    idx("otps.phoneKey(unique)", "otps", { phoneKey: 1 }, { unique: true }),
+    idx("otps.expiresAt(ttl)", "otps", { expiresAt: 1 }, { expireAfterSeconds: 0, name: "otp_ttl" }),
   ]);
   console.log(`→ Ensured ${created.length} indexes`);
 

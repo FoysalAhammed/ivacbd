@@ -70,6 +70,33 @@ export interface ActivationDoc {
   deactivatedAt?: Date | null;
 }
 
+/**
+ * One doc per phone number that relays OTPs. The raw phone is never stored —
+ * only its HMAC (`phoneKey`). The OTP itself is encrypted at rest and cleared
+ * the moment the bound extension reads it (single-use). `expiresAt` drives a
+ * Mongo TTL index so abandoned rows self-delete.
+ */
+export interface OtpDoc {
+  _id: ObjectId;
+  /** HMAC-SHA256 of the normalized phone number. Unique. */
+  phoneKey: string;
+  /** AES-256-GCM blob of the OTP digits; null once consumed. */
+  otpEnc: string | null;
+  /** Optional encrypted raw SMS text (debugging). */
+  rawEnc?: string | null;
+  /** The OTP is only deliverable before this instant (code-enforced ~180s). */
+  otpExpiresAt?: Date | null;
+  /** Trust-on-first-use: reset to null on every submit; first poller re-binds. */
+  boundInstallationId?: string | null;
+  boundAt?: Date | null;
+  consumedAt?: Date | null;
+  submitCount?: number;
+  createdAt?: Date;
+  updatedAt: Date;
+  /** TTL anchor — Mongo removes the row after this instant. */
+  expiresAt: Date;
+}
+
 export interface SubscriptionDoc {
   _id: ObjectId;
   customerId: ObjectId;

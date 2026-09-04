@@ -34,6 +34,33 @@ export const validateSchema = z.object({
 });
 export type ValidateInput = z.infer<typeof validateSchema>;
 
+// ── OTP relay (mobile app → backend → extension) ────────────
+// Routing key is the phone number (server normalizes + HMACs it — see
+// server/services/otp-core.ts). Lenient here: accept any plausible number
+// and let the server normalize, so different formats still match.
+const relayPhone = z.string().trim().min(6).max(24);
+const otpDigits = z
+  .string()
+  .trim()
+  .regex(/^\d{4,8}$/, "OTP must be 4–8 digits");
+
+// Sent by the Android app when it reads an OTP SMS.
+export const otpSubmitSchema = z.object({
+  phone: relayPhone,
+  otp: otpDigits,
+  appKey: z.string().min(1).max(256),
+  raw: z.string().max(500).optional(),
+  sentAt: z.number().int().nonnegative().optional(),
+});
+export type OtpSubmitInput = z.infer<typeof otpSubmitSchema>;
+
+// Polled by the extension while it sits on the OTP page.
+export const otpPollSchema = z.object({
+  phone: relayPhone,
+  installationId,
+});
+export type OtpPollInput = z.infer<typeof otpPollSchema>;
+
 // ── Customer purchase (website-facing) ──────────────────────
 
 const bdPhone = z
