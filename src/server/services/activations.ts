@@ -163,6 +163,27 @@ export async function validate(input: ValidateInput): Promise<LicenseActivationR
   return buildActivationResult(license, input.installationId);
 }
 
+/**
+ * Auth-only check for endpoints that need a paid, active, non-revoked device
+ * but do NOT issue a fresh signed token (e.g. fetching the CAPTCHA key). Same
+ * gate as validate(): findById → lazyExpire → activation must be ACTIVE →
+ * assertUsable. Throws the same coded AppErrors as validate() on failure.
+ */
+export async function assertActiveDevice(
+  licenseId: string,
+  installationId: string,
+): Promise<LicenseDoc> {
+  let license = await findById(licenseId);
+  if (!license) throw new AppError("INVALID_KEY");
+  license = await lazyExpire(license);
+  const act = await (await activations()).findOne({ licenseId: license._id, installationId });
+  if (!act || act.status !== ACTIVATION_STATUS.ACTIVE) {
+    throw new AppError("REVOKED", "This device is no longer authorized.");
+  }
+  assertUsable(license);
+  return license;
+}
+
 export interface DeactivateInput {
   licenseId: string;
   installationId: string;
